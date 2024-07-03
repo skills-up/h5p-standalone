@@ -196,9 +196,9 @@ export class H5PStandalone {
          * Load H5P content and libraries
          */
 
-        const {h5pJsonPath, contentJsonPath, librariesPath} = this.getH5PPaths(options);
+        const {contentJsonPath, librariesPath} = this.getH5PPaths(options);
 
-        const H5PJsonContent = <H5PPackageDefinition>(JSON.parse(atob(await getJSON(`${h5pJsonPath}/data`, options?.assetsRequestFetchOptions, true))));
+        const H5PJsonContent = <H5PPackageDefinition>(await getJSON('libs/video.json', options?.assetsRequestFetchOptions));
 
         //populate the variable before executing other functions.We assume other dependent
         // libraries follow the same format rather than performing the check for each library
@@ -322,8 +322,8 @@ export class H5PStandalone {
         H5PIntegration.contents[`cid-${contentId}`] = {
             library: mainLibraryName,
             title: options.title ? options.title : '',
-            url: h5pJsonPath,
-            contentUrl: contentJsonPath,
+            url: undefined,
+            // contentUrl: undefined,
             jsonContent: JSON.stringify(H5PContentJsonContent),
             styles: styles,
             scripts: scripts,
