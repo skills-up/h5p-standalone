@@ -3,13 +3,13 @@ const toposort = require('toposort');
 import {
     H5PContent,
     H5PIntegration,
+    H5PLibraryDefinition,
     H5PPackageDefinition,
     H5PPlayerDisplayOptions,
     LibraryDependency,
-    H5PLibraryDefinition,
     User
 } from "./h5p";
-import {defaultH5PIntegration} from "./h5p-integration";
+import { defaultH5PIntegration } from "./h5p-integration";
 import {
     getJSON,
     loadScripts,
@@ -198,7 +198,7 @@ export class H5PStandalone {
 
         const {h5pJsonPath, contentJsonPath, librariesPath} = this.getH5PPaths(options);
 
-        const H5PJsonContent = <H5PPackageDefinition>(await getJSON(`${h5pJsonPath}/h5p.json`, options?.assetsRequestFetchOptions));
+        const H5PJsonContent = <H5PPackageDefinition>(JSON.parse(atob(await getJSON(`${h5pJsonPath}/data`, options?.assetsRequestFetchOptions, true))));
 
         //populate the variable before executing other functions.We assume other dependent
         // libraries follow the same format rather than performing the check for each library
@@ -206,7 +206,7 @@ export class H5PStandalone {
             librariesPath, H5PJsonContent.preloadedDependencies[0], options?.assetsRequestFetchOptions);
 
 
-        const H5PContentJsonContent = await getJSON(`${contentJsonPath}/content.json`, options?.assetsRequestFetchOptions);
+        const H5PContentJsonContent = JSON.parse(atob(await getJSON(`${contentJsonPath}/data`, options?.assetsRequestFetchOptions, true)));
 
         const mainLibrary = await this.findMainLibrary(H5PJsonContent, librariesPath);
 

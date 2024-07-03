@@ -28,12 +28,12 @@ export function urlPath(path: string): string {
     return `${prefix}/${path}`;
 }
 
-export async function getJSON<T>(url: string,requestOptions?: RequestInit): Promise<T> {
+export async function getJSON<T>(url: string,requestOptions?: RequestInit, decode?: boolean): Promise<T> {
     if(!requestOptions){
         requestOptions = {credentials: 'include'}
     }
     const res = await fetch(url,requestOptions);
-    return res.json();
+    return decode ? res.text() : res.json();
 }
 
 export async function loadScripts(target: HTMLElement, scripts: string[]) {
