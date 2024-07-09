@@ -192,11 +192,10 @@ export class H5PStandalone {
 
     getDecodedContent(content): string {
         const f = (ch): number => ((ch === 64 ? 0 : ch) || 0);
-        const line = (str): string => {
-            let code = str.split('').map(c => c.charCodeAt(0) - 32);
-            if (code[0] == 64) return '';
-            code = code.slice(1);
+        const line = (str: string): string => {
             let out = '';
+            if (!str.length) return out;
+            const code = str.split('').map(c => c.charCodeAt(0) - 32);
             for (let i = 0; i<Math.ceil(code.length/4); ++i) {
                 const buf = code.slice(i*4, (i+1)*4);
                 const data = (f(buf[0]) << 18) + (f(buf[1]) << 12) + (f(buf[2]) << 6) + f(buf[3]);
@@ -204,7 +203,7 @@ export class H5PStandalone {
             }
             return out;
         }
-        return atob(content).split('\n').map(s => line(s)).join('').replaceAll('\\/', '/');
+        return atob(content).split('\n').map(s => line(s)).join('').replaceAll('\\/', '/').replaceAll('\u0000', '');
     }
 
     async prepareH5PEnvironment(contentId, options: Options): Promise<H5PIntegration> {
