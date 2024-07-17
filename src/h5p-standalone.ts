@@ -252,10 +252,10 @@ export class H5PStandalone {
         let coreStyles = [urlPath('./styles/h5p.css')];
 
         if (options.frameJs) {
-            coreScripts = [urlPath(options.frameJs)]
+            coreScripts = [options.frameJs]
         }
         if (options.frameCss) {
-            coreStyles = [urlPath(options.frameCss)];
+            coreStyles = [options.frameCss];
         }
 
         if (!H5PIntegration.core) {
@@ -371,18 +371,18 @@ export class H5PStandalone {
     getH5PPaths(options: Options): H5PKeyPaths {
         let h5pJsonPath: string = urlPath('workspace')
         if (options.h5pJsonPath) {
-            h5pJsonPath = urlPath(options.h5pJsonPath);
+            h5pJsonPath = options.h5pJsonPath;
         }
 
         let contentJsonPath: string = `${h5pJsonPath}/content`;
 
         if (options.contentJsonPath) {
-            contentJsonPath = urlPath(options.contentJsonPath);
+            contentJsonPath = options.contentJsonPath;
         }
 
         let librariesPath: string = h5pJsonPath;
         if (options.librariesPath) {
-            librariesPath = urlPath(options.librariesPath);
+            librariesPath = options.librariesPath;
         }
 
         return {h5pJsonPath, contentJsonPath, librariesPath}
