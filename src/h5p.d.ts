@@ -45,6 +45,8 @@ export interface H5PIntegration {
     loadedCss?: string[];
 
     contents: { [key: `cid-${string}`]: H5PContent }
+
+    errorCallback?: (error?: any, data?: any) => void;
 }
 
 export interface User {

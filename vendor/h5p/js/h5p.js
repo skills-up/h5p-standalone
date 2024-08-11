@@ -2396,7 +2396,7 @@ H5P.createTitle = function (rawTitle, maxLength) {
     }
     if (done !== undefined) {
       options.error = function (xhr, error) {
-        done(error);
+        done(error, xhr.status);
       };
       options.success = function (response) {
         if (!response.success) {
@@ -2537,7 +2537,10 @@ H5P.createTitle = function (rawTitle, maxLength) {
     }
 
     preloadedData[options.subContentId][dataId] = data;
-    contentUserDataAjax(contentId, dataId, options.subContentId, function (error) {
+    contentUserDataAjax(contentId, dataId, options.subContentId, function (error, res) {
+      if (H5PIntegration.errorCallback) {
+        H5PIntegration.errorCallback(error, res);
+      }
       if (options.errorCallback && error) {
         options.errorCallback(error);
       }

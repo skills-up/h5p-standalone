@@ -65,6 +65,8 @@ interface Options {
     translations?: H5PIntegration['l10n'];
 
     assetsRequestFetchOptions?: RequestInit;
+
+    errorCallback?: (error?: any, data?: any) => void;
 }
 
 interface H5PKeyPaths {
@@ -276,6 +278,10 @@ export class H5PStandalone {
         //since the default is false, only set if it's a number?
         if (options.saveFreq && typeof options.saveFreq === 'number') {
             H5PIntegration.saveFreq = options.saveFreq;
+        }
+
+        if (options.errorCallback) {
+            H5PIntegration.errorCallback = options.errorCallback;
         }
 
         if (options.user) {
